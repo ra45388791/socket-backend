@@ -22,8 +22,9 @@ import GlobalClass from '../global/globalClass';
 
 const pleyer = function (this: UserSocket, route: Namespace): void {
 
-    const global = new GlobalClass(route);
+    const global = new GlobalClass(route, this);
     const player = new PlayerClass(route, this);
+    let playRoom = "";
     // const auth: pleyerSet = this.handshake.auth as pleyerSet;
     // let roomItem = [...this.rooms];
 
@@ -32,7 +33,7 @@ const pleyer = function (this: UserSocket, route: Namespace): void {
 
     //加入房間
     this.on(user.JOIN_ROOM, (RoomId: string) => {
-        const joinRoom = player.joinPlayerRoom(RoomId);
+        const joinRoom = global.joinPlayerRoom(RoomId);
         const returnMsg: joinRoom = {
             status: true,
             msg: RoomId,
@@ -43,6 +44,7 @@ const pleyer = function (this: UserSocket, route: Namespace): void {
         if (joinRoom !== undefined) {
             //成功
             global.updateUserItem(RoomId);
+            playRoom = RoomId;
             this.emit(user.JOIN_ROOM, returnMsg);
         } else {
             //失敗
@@ -58,12 +60,12 @@ const pleyer = function (this: UserSocket, route: Namespace): void {
     this.on('disconnect', () => {
 
         //拿事先存的id找房間
-        const room = player.playerRoom;
+        // const room = playRoom;
 
         //離開並更新其他人的狀態
-        this.leave(room);
-        global.updateUserItem(room);
-        console.log('使用者關閉連結', '離開:' + room);
+        this.leave(playRoom);
+        global.updateUserItem(playRoom);
+        console.log('使用者關閉連結', '離開:' + playRoom);
 
     });
 };

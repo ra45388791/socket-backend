@@ -30,17 +30,9 @@ const io = new Server_io(server, {
     connectionStateRecovery: {
         maxDisconnectionDuration: 2 * 60 * 1000,
         skipMiddlewares: true,
-    }         //連線狀態回復功能啟用
+    },         //連線狀態回復功能啟用
 });
 
-// io.use((socket, next) => {
-//     // const userName = socket.handshake.auth.username;
-//     // if (!userName){
-//     // return next(new Error('Invalid username'));
-//     // }
-//     socket.username = "123";
-//     next();
-// });
 
 
 // app.use(cors());

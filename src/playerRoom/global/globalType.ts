@@ -1,36 +1,26 @@
 import { Socket } from 'socket.io';
 
+
 //Socket 擴充
 interface UserSocket extends Socket {
+    // global: any;
     userSet?: userSet;
 }
 type userSet = {
     token: string,
-    integral:number
+    id: string,
 }
 
 
 
-//master 
-type masterModel = {
-    RoomID: string,
-    master_ID: string,
-    Member_ID: string,
-}
 
-//player
-type playerModel = {
-    Player_ID: string,
-    Player_Nmae: string,
-    Player_Image: string,
-    Player_Defualt_Image: number,
-    Player_Score: number,
-    room_id: string
-}
+
+
 
 //player 帶上來的資料
 type pleyerSet = {
     identity: string,
+    id:string,
     room: string
 }
 
@@ -43,10 +33,8 @@ type joinRoom = {
 
 
 
-export {
-    UserSocket,
-    masterModel,
-    playerModel,
-    pleyerSet,
-    joinRoom,
-};
+//socket
+export { UserSocket };
+
+//PLAYER
+export { pleyerSet, joinRoom }

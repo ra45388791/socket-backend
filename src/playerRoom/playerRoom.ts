@@ -10,7 +10,7 @@ import { UserSocket, pleyerSet } from './global/globalType';
 // import { Socket } from 'dgram';
 
 //持久保存使用者狀態 (進入時先檢查activeUser 有沒有對應id)
-const activeUser = new Map<string, UserSocket>();
+// const activeUser = new Map<string, UserSocket>();
 
 
 const playerRoomRoute = (io: SocketIoServer, path: string): void => {
@@ -21,21 +21,11 @@ const playerRoomRoute = (io: SocketIoServer, path: string): void => {
 
         const auth: pleyerSet = socket.handshake.auth as pleyerSet;
 
-        /* 測試不同層級修改 socket 是否能取得修改後的資料
-        // socket.userSet = {
-        //     token: '123',
-        //     integral: 0,
-        // }
-        // activeUser.set(socket.id, socket);
-        // console.log(activeUser);
-        */
-
 
         global.call(socket, route);
 
         //區分 主機、玩家
         switch (auth.identity) {
-
             //主機
             case 'master':
                 master.call(socket, route);
@@ -45,8 +35,6 @@ const playerRoomRoute = (io: SocketIoServer, path: string): void => {
             case 'player':
                 player.call(socket, route);
                 break;
-
-
         }
 
 
